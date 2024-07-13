@@ -1,3 +1,4 @@
+using Greggs.Products.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +11,9 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers();
+
+        // Add our data access implementations
+        services.AddDataAccess();
 
         services.AddSwaggerGen();
     }
