@@ -14,6 +14,7 @@ public class Startup
 
         // Add our data access implementations
         services.AddDataAccess();
+        services.AddServices();
 
         services.AddSwaggerGen();
     }

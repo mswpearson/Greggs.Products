@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Greggs.Products.Api.DataAccess;
+﻿using System.Collections.Generic;
 using Greggs.Products.Api.Models;
+using Greggs.Products.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -13,17 +11,19 @@ namespace Greggs.Products.Api.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly ILogger<ProductController> _logger;
-    private readonly IDataAccess<Product> _productDataAccess;
+    private readonly IProductService _productService;
 
-    public ProductController(ILogger<ProductController> logger, IDataAccess<Product> productDataAccess)
+    public ProductController(ILogger<ProductController> logger, IProductService productService)
     {
         _logger = logger;
-        _productDataAccess = productDataAccess;
+        _productService = productService;
     }
 
     [HttpGet]
-    public IEnumerable<Product> Get(int pageStart = 0, int pageSize = 5)
+    public IEnumerable<Product> Get(int pageStart = 0, int pageSize = 5, Currency currency = Currency.Pound)
     {
-        return _productDataAccess.List(pageStart, pageSize);
+        _logger.LogInformation("Product request with parameters: {pageStart}, {pageSize}, {currency}.", pageStart, pageSize, currency);
+
+        return _productService.Get(pageStart, pageSize, currency);
     }
 }
